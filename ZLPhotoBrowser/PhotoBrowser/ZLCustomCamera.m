@@ -443,6 +443,8 @@
 @property (nonatomic, strong) UIImageView *takedImageView;
 //拍照的照片
 @property (nonatomic, strong) UIImage *takedImage;
+//拍照的照片数据
+@property (strong, nonatomic) NSData *takedImageData;
 //播放视频
 @property (nonatomic, strong) ZLPlayer *playerView;
 
@@ -925,6 +927,7 @@
         NSData * imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
         UIImage * image = [UIImage imageWithData:imageData];
         weakSelf.takedImage = image.fixOrientation;
+        weakSelf.takedImageData = imageData;
         weakSelf.takedImageView.hidden = NO;
         weakSelf.takedImageView.image = image;
         [weakSelf.session stopRunning];
@@ -974,6 +977,10 @@
     [self dismissViewControllerAnimated:YES completion:^{
         if (self.doneBlock) {
             self.doneBlock(self.takedImage, self.videoUrl);
+        }
+        if (self.doneCustomBlock)
+        {
+            self.doneCustomBlock(self.takedImageData, self.videoUrl);
         }
     }];
 }
