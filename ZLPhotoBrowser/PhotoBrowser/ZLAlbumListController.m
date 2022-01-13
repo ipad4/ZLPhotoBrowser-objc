@@ -38,12 +38,36 @@
     _configuration = configuration;
     
     [UIApplication sharedApplication].statusBarStyle = self.configuration.statusBarStyle;
-    [self.navigationBar setBackgroundImage:[self imageWithColor:configuration.navBarColor] forBarMetrics:UIBarMetricsDefault];
     [self.navigationBar setTintColor:configuration.navTitleColor];
-    [self.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: configuration.navTitleColor}];
-//    UIImage *image = [GetImageWithName(@"zl_navBack") imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-//    [self.navigationBar setBackIndicatorImage:image];
-//    [self.navigationBar setBackIndicatorTransitionMaskImage:image];
+
+    if (@available(iOS 13, *))
+    {
+        UINavigationBarAppearance *appearance = self.navigationBar.standardAppearance;
+        if (!appearance)
+        {
+            appearance = [[UINavigationBarAppearance alloc] init];
+            self.navigationBar.standardAppearance = appearance;
+        }
+        [appearance configureWithOpaqueBackground];
+        
+        // 设置标题属性
+        appearance.titleTextAttributes = @{NSForegroundColorAttributeName: configuration.navTitleColor};
+        // 设置背景图
+        appearance.backgroundImage = [self imageWithColor:configuration.navBarColor];
+        appearance.backgroundImageContentMode = UIViewContentModeScaleToFill;        
+        if (@available(iOS 15, *))
+        {
+            self.navigationBar.scrollEdgeAppearance = self.navigationBar.standardAppearance;
+        }
+    }
+    else
+    {
+        [self.navigationBar setBackgroundImage:[self imageWithColor:configuration.navBarColor] forBarMetrics:UIBarMetricsDefault];
+        [self.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: configuration.navTitleColor}];
+    //    UIImage *image = [GetImageWithName(@"zl_navBack") imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    //    [self.navigationBar setBackIndicatorImage:image];
+    //    [self.navigationBar setBackIndicatorTransitionMaskImage:image];
+    }
 }
 
 - (UIImage *)imageWithColor:(UIColor *)color
