@@ -45,10 +45,10 @@
     self.imageView.clipsToBounds = YES;
     [self.contentView addSubview:self.imageView];
     
-    self.maskView = [[UIView alloc] init];
-    self.maskView.userInteractionEnabled = NO;
-    self.maskView.hidden = YES;
-    [self.contentView addSubview:self.maskView];
+    self.custom_maskView = [[UIView alloc] init];
+    self.custom_maskView.userInteractionEnabled = NO;
+    self.custom_maskView.hidden = YES;
+    [self.contentView addSubview:self.custom_maskView];
     
     self.videoBottomView = [[UIImageView alloc] initWithImage:GetImageWithName(@"zl_videoView")];
     self.videoBottomView.frame = CGRectMake(0, GetViewHeight(self)-15, GetViewWidth(self), 15);
@@ -97,7 +97,7 @@
     self.imageView.frame = self.bounds;
     self.btnSelect.frame = CGRectMake(GetViewWidth(self.contentView)-26, 5, 23, 23);
     self.indexLabel.frame = self.btnSelect.frame;
-    self.maskView.frame = self.bounds;
+    self.custom_maskView.frame = self.bounds;
     
     self.videoBottomView.frame = CGRectMake(0, GetViewHeight(self)-15, GetViewWidth(self), 15);
     self.videoImageView.frame = CGRectMake(5, 1, 16, 12);

@@ -554,7 +554,7 @@ typedef NS_ENUM(NSUInteger, SlideSelectType) {
             }
             ZLCollectionCell *c = (ZLCollectionCell *)cell;
             c.btnSelect.selected = m.isSelected;
-            c.maskView.hidden = configuration.showSelectedMask ? !m.isSelected : YES;
+            c.custom_maskView.hidden = configuration.showSelectedMask ? !m.isSelected : YES;
             [self refreshCellIndex];
             [self refreshCellMaskView];
             [self resetBottomBtnsStatus:NO];
@@ -636,7 +636,7 @@ typedef NS_ENUM(NSUInteger, SlideSelectType) {
             
             ZLCollectionCell *c = (ZLCollectionCell *)[self.collectionView cellForItemAtIndexPath:path];
             c.btnSelect.selected = m.isSelected;
-            c.maskView.hidden = configuration.showSelectedMask ? !m.isSelected : YES;
+            c.custom_maskView.hidden = configuration.showSelectedMask ? !m.isSelected : YES;
             [self refreshCellIndex];
             [self refreshCellMaskView];
             [self resetBottomBtnsStatus:NO];
@@ -858,22 +858,22 @@ typedef NS_ENUM(NSUInteger, SlideSelectType) {
 - (void)setCellMaskView:(ZLCollectionCell *)cell isSelected:(BOOL)isSelected model:(ZLPhotoModel *)model {
     ZLPhotoConfiguration *configuration = [(ZLImageNavigationController *)self.navigationController configuration];
     ZLImageNavigationController *nav = (ZLImageNavigationController *)self.navigationController;
-    cell.maskView.hidden = YES;
+    cell.custom_maskView.hidden = YES;
     cell.enableSelect = YES;
     if (isSelected) {
-        cell.maskView.backgroundColor = configuration.selectedMaskColor;
-        cell.maskView.hidden = !configuration.showSelectedMask;
+        cell.custom_maskView.backgroundColor = configuration.selectedMaskColor;
+        cell.custom_maskView.hidden = !configuration.showSelectedMask;
     } else {
         NSInteger selCount = nav.arrSelectedModels.count;
         if (selCount < configuration.maxSelectCount && selCount > 0) {
             if (configuration.mutuallyExclusiveSelectInMix) {
-                    cell.maskView.backgroundColor = configuration.invalidMaskColor;
-                    cell.maskView.hidden = model.type != ZLAssetMediaTypeVideo;
+                    cell.custom_maskView.backgroundColor = configuration.invalidMaskColor;
+                    cell.custom_maskView.hidden = model.type != ZLAssetMediaTypeVideo;
                     cell.enableSelect = model.type != ZLAssetMediaTypeVideo;
             }
         } else if (selCount >= configuration.maxSelectCount) {
-            cell.maskView.backgroundColor = configuration.invalidMaskColor;
-            cell.maskView.hidden = NO;
+            cell.custom_maskView.backgroundColor = configuration.invalidMaskColor;
+            cell.custom_maskView.hidden = NO;
             cell.enableSelect = NO;
         }
     }
